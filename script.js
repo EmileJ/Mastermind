@@ -28,7 +28,6 @@ function generateCode(){
     for(var i = 0; i<4; i++){
         code.push(Math.floor(Math.random()*4))
     }
-    console.log(code)
 }
 
 generateCode()
