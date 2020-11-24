@@ -1,0 +1,63 @@
+@font-face{
+    font-family: EmojiSymbols;
+    src: url('./font/EmojiSymbols-Regular.woff');
+}
+
+tbody{
+    font-family: EmojiSymbols;
+}
+
+table{
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+th, td {
+    border: 1px solid gray;
+    margin:0;
+    padding:0.5em;
+    max-height: 24px;
+    min-width: 1em;
+}
+
+tr td:not(:first-child){
+    max-width: 1em;
+}
+
+button{
+    text-decoration: none;
+    color: black;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    margin: 20px 0 30px 0;
+}
+
+#active {
+    border: 1px solid black;
+}
+
+#red{
+    color: red;
+}
+
+#green{
+    color:green; 
+}
+
+#blue{
+    color:blue;
+}
+
+#yellow{
+    color:yellow;
+}
+
+#contains {
+    color: gray;
+}
+
+#correct{
+    color:red;
+}
