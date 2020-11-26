@@ -3,13 +3,11 @@
     src: url('./font/EmojiSymbols-Regular.woff');
 }
 
-tbody{
-    font-family: EmojiSymbols;
-}
-
 table{
+    font-family: EmojiSymbols;
     border-collapse: collapse;
     border-spacing: 0;
+    font-size: 28px;
 }
 
 th, td {
@@ -38,19 +36,19 @@ button{
     border: 1px solid black;
 }
 
-#red{
+.red{
     color: red;
 }
 
-#green{
+.green{
     color:green; 
 }
 
-#blue{
+.blue{
     color:blue;
 }
 
-#yellow{
+.yellow{
     color:yellow;
 }
 
