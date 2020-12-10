@@ -38,8 +38,10 @@ td:last-child{
 button{
     text-decoration: none;
     color: black;
+    padding: 10px;
     background-color: transparent;
-    border: none;
+    border: 1px solid black;
+    border-radius:5px;
     cursor: pointer;
     text-align: center;
     margin: 20px 0 30px 0;
@@ -49,7 +51,7 @@ button{
     border: 1px solid black;
 }
 
-pin{
+#redPin,#greenPin,#bluePin,#yellowPin{
     padding:0;
     margin: 0;
     cursor: move;
