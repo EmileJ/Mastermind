@@ -8,13 +8,33 @@
     </head>
 
     <body>
-        <h1>Mastermind</h1>
-        <pin id="redPin" class='red' draggable='true'>&#9864;</pin>
-        <pin id="greenPin" class='green' draggable='true'>&#9864;</pin>
-        <pin id="bluePin" class='blue' draggable='true'>&#9864;</pin>
-        <pin id="yellowPin" class='yellow' draggable='true'>&#9864;</pin>
+        <h1 class='drag'>Mastermind</h1>
+        <div style="width: 50%; margin: auto;">
+            Sleep de pinnetjes onder de check-knop naar het veld totdat de rij vol zit.
+            Klik vervolgens op de check-knop, in de laatste rij verschijnen nu icoontjes afhankelijk van de code die je ingevoerd hebt.
+            <br />
+            <ul style="font-size: 24px;">
+                <li>
+                    <correctcol>&#x1f4cd;</correctcol>: de kleur zit in de code, maar de positie is niet correct
+                </li>
+                <li>
+                    <correctpos>&#x1f4cd;</correctpos>: de kleur en positie is correct, niets meer aan doen
+                </li>
+                <li>
+                    <notcorrect>&#xffee;</notcorrect>: deze kleur zit niet in de code
+                </li>
+            </ul>
+        </div>
         <br />
         <button id="check"><b>Check</b></button> &nbsp;
+        <br />
+        <div class='drag'>
+            <pin id="redPin" class='red pin' draggable='true'>&#9864;</pin>
+            <pin id="greenPin" class='green pin' draggable='true'>&#9864;</pin>
+            <pin id="bluePin" class='blue pin' draggable='true'>&#9864;</pin>
+            <pin id="yellowPin" class='yellow pin' draggable='true'>&#9864;</pin>
+        </div>
+        <br />
         <table>
             <thead>
                 <tr>

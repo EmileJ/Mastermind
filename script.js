@@ -16,10 +16,14 @@ const correctPos = document.createElement('correctPos');
 const correctCol = document.createElement('correctCol');
 const notCorrect = document.createElement('notCorrect');
 correctCol.innerHTML = indicator;
+correctPos.innerHTML = indicator;
 notCorrect.innerHTML = emptyIndicator;
 
-const header = document.getElementsByTagName('th')
-let currentTurn = document.getElementById(`turn${turn}`);
+const header = document.getElementsByTagName('th');
+let currentTurn;
+
+generateCode();
+NextRow();
 
 function generateCode(){
     for(var i = 0; i<4; i++){
@@ -35,7 +39,6 @@ window.addEventListener('DOMContentLoaded', ()=>{
     }
 })
 
-generateCode()
 
 for(let i = 1; i<=code.length;i++){
     header.item(i).innerHTML = codePin;
@@ -45,40 +48,55 @@ for(let i = 1; i<=code.length;i++){
 checkBtn.addEventListener('click', checkCurrentRow);
 
 function checkCurrentRow(){
-    const row = document.getElementById(`turn${turn}`);
-    const cells = row.children
-
     for(let i = 1;i<5;i++){
-        if(cells.item(i).children.length === 0){
+        if(currentTurn.children.item(i).children.length === 0){
             console.log('empty cell detected, skipping check')
             return
         }
+        const cellVal = colors.indexOf(currentTurn.children.item(i).childNodes[0].classList[0]);
+
+        if(i===3)currentTurn.lastElementChild.innerHTML += '<br />';
+        currentTurn.lastElementChild.appendChild(checkValue(i-1,cellVal));
     }
 
-    for(let i = 0;i<4;i++){
-        if(i===2) currentTurn.lastElementChild.innerHTML+='<br />';
-        currentTurn.lastElementChild.appendChild(correctCol.cloneNode(true));
+    NextRow();
+}
+
+function checkValue(index, input){
+    if(!code.includes(input)) return notCorrect.cloneNode(true);
+    if(code[index] === input) return correctPos.cloneNode(true);
+    return correctCol.cloneNode(true);
+}
+
+function NextRow(){
+    if(turn>0){
+        for(let i = 1; i<5;i++){
+            const cell = currentTurn.children.item(i);
+            cell.removeEventListener('dragenter', setDropTarget);
+            cell.removeEventListener('dragover', event => event.preventDefault());
+            cell.removeEventListener('dragleave', resetDropTarget);
+            cell.removeEventListener('drop', DropTarget);
+        }
+        turn++;
+    }
+    currentTurn = document.getElementById(`turn${turn}`);
+
+    for(let i = 1; i<5;i++){
+        const cell = currentTurn.children.item(i);
+        cell.addEventListener('dragenter', setDropTarget);
+        cell.addEventListener('dragover', event => event.preventDefault());
+        cell.addEventListener('dragleave', resetDropTarget);
+        cell.addEventListener('drop', DropTarget);
     }
 }
 
-function nextRound(){
-    
-}
-
-for(let i = 1; i<5;i++){
-    const cell = currentTurn.children.item(i);
-    cell.addEventListener('dragenter', setDropTarget);
-    cell.addEventListener('dragover', event => event.preventDefault());
-    cell.addEventListener('dragleave', resetDropTarget);
-    cell.addEventListener('drop', DropTarget);
-}
 
 //Event Handlers
 
 function handleDragStartPin(event){
     event.target.style.opacity = '0.4';
     event.dataTransfer.dropEffect = 'copy';
-    event.dataTransfer.setData('text/plain', event.target.classList)
+    event.dataTransfer.setData('text/plain', event.target.classList[0])
 }
 
 function handleDragEndPin(event){

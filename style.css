@@ -6,13 +6,17 @@
 body{
     font-size: 28px;
     background-color: gray;
+    font-family: EmojiSymbols;
 }
 
 table{
-    font-family: EmojiSymbols;
     border-collapse: collapse;
     border-spacing: 0;
+    table-layout: fixed;
+    width: 75%;
     font-size: 28px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 th{
@@ -21,13 +25,15 @@ th{
 
 th, td {
     border: 1px solid lightgray;
+    text-align: center;
     margin:0;
-    padding:0.5em;
     min-width: 1em;
+    height: 2.5em;
 }
 
 tr td:not(:first-child){
     /*max-width: 1em;*/
+    
 }
 
 td:last-child{
@@ -38,23 +44,20 @@ td:last-child{
 button{
     text-decoration: none;
     color: black;
-    padding: 10px;
+    /*padding: 0px;*/
+    width: 50%;
+    height: 5em;
+    border-radius:2.5em;
     background-color: transparent;
     border: 1px solid black;
-    border-radius:5px;
     cursor: pointer;
     text-align: center;
-    margin: 20px 0 30px 0;
+    margin: auto;
+    display: block;
 }
 
 #active {
     border: 1px solid black;
-}
-
-#redPin,#greenPin,#bluePin,#yellowPin{
-    padding:0;
-    margin: 0;
-    cursor: move;
 }
 
 correctPos, correctCol, notCorrect{
@@ -63,6 +66,7 @@ correctPos, correctCol, notCorrect{
     margin: 0;
     min-width: 28px;
     max-width: 28px;
+    min-height: 28px;
     max-height: 28px;
 }
 
@@ -72,6 +76,24 @@ correctPos{
 
 correctCol{
     color: white;
+}
+
+.pin{
+    cursor: move;
+    border: 1px solid black;
+    border-radius: 25%;
+    text-align: center;
+    height: 50px;
+    line-height: 50px;
+    min-width: 50px;
+    max-width: 50px;
+    min-height: 50px;
+    max-height: 50px;
+}
+
+.drag{
+    display: flex;
+    justify-content: center;
 }
 
 .red{
