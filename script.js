@@ -12,11 +12,11 @@ const row = document.createElement('TR');
 const table = document.getElementById('playField');
 const checkBtn = document.getElementById('check');
 
-const correctPos = document.createElement('correctPos');
-const correctCol = document.createElement('correctCol');
+const correctPosition = document.createElement('correctPos');
+const correctColor = document.createElement('correctCol');
 const notCorrect = document.createElement('notCorrect');
-correctCol.innerHTML = indicator;
-correctPos.innerHTML = indicator;
+correctColor.innerHTML = indicator;
+correctPosition.innerHTML = indicator;
 notCorrect.innerHTML = emptyIndicator;
 
 const header = document.getElementsByTagName('th');
@@ -39,57 +39,75 @@ window.addEventListener('DOMContentLoaded', ()=>{
     }
 })
 
-
-for(let i = 1; i<=code.length;i++){
-    header.item(i).innerHTML = codePin;
-    header.item(i).classList.add(colors[code[i-1]])
-}
-
 checkBtn.addEventListener('click', checkCurrentRow);
 
 function checkCurrentRow(){
+    values = [];
+    let scoreField = currentTurn.lastElementChild;
+
     for(let i = 1;i<5;i++){
         if(currentTurn.children.item(i).children.length === 0){
             console.log('empty cell detected, skipping check')
             return
         }
         const cellVal = colors.indexOf(currentTurn.children.item(i).childNodes[0].classList[0]);
-
-        if(i===3)currentTurn.lastElementChild.innerHTML += '<br />';
-        currentTurn.lastElementChild.appendChild(checkValue(i-1,cellVal));
+        values.push(checkValue(i-1,cellVal));
+    }
+    let correct = values.filter(item => item==='correct').length;
+    let incorrect = values.filter(item => item==='incorrect').length;
+    
+    for (let index = 0; index < correct; index++) {
+        scoreField.appendChild(correctPosition.cloneNode(true));
     }
 
-    NextRow();
+    for (let index = 0; index < incorrect; index++) {
+        scoreField.appendChild(correctColor.cloneNode(true));
+    }
+
+    let leftover = 4 - (correct+incorrect);
+    for (let index = 0; index < leftover; index++) {
+        scoreField.appendChild(notCorrect.cloneNode(true));
+    }
+
+    if(correct<4){
+        NextRow();
+    }else{
+        document.getElementById('won').classList.remove('hidden');
+        checkBtn.disabled = true;
+        for(let i = 1; i<=code.length;i++){
+            header.item(i).innerHTML = codePin;
+            header.item(i).classList.add(colors[code[i-1]])
+        }
+    }
 }
 
 function checkValue(index, input){
-    if(!code.includes(input)) return notCorrect.cloneNode(true);
-    if(code[index] === input) return correctPos.cloneNode(true);
-    return correctCol.cloneNode(true);
+    if(code[index] === input) return 'correct';
+    if(!code.includes(input)) return 'wrong';
+    return 'incorrect';
 }
 
 function NextRow(){
-    if(turn>0){
+    if(turn>1){
         for(let i = 1; i<5;i++){
             const cell = currentTurn.children.item(i);
             cell.removeEventListener('dragenter', setDropTarget);
-            cell.removeEventListener('dragover', event => event.preventDefault());
+            cell.removeEventListener('dragover', setDropTarget);
             cell.removeEventListener('dragleave', resetDropTarget);
             cell.removeEventListener('drop', DropTarget);
         }
-        turn++;
     }
-    currentTurn = document.getElementById(`turn${turn}`);
+
+    currentTurn = document.getElementById(`turn${turn++}`);
 
     for(let i = 1; i<5;i++){
         const cell = currentTurn.children.item(i);
         cell.addEventListener('dragenter', setDropTarget);
-        cell.addEventListener('dragover', event => event.preventDefault());
+        cell.addEventListener('dragover', setDropTarget);
         cell.addEventListener('dragleave', resetDropTarget);
         cell.addEventListener('drop', DropTarget);
     }
 }
-
 
 //Event Handlers
 
@@ -109,28 +127,15 @@ function handleDropPin(event){
 
 function setDropTarget(event){
     event.preventDefault();
-
-    newNode = event.target;
-    if(event.target.tagName && event.target.tagName.toLowerCase() === 'td'){
-        event.target.style.border = "2px dotted black";
-    }else{
-        const cell = event.target.parentElement.parentElement
-        cell.style.border = "2px dotted black";
+    if(event.currentTarget.style.border == ""){
+        event.currentTarget.style.border = "2px dotted black";
     }
 }
 
 function resetDropTarget(event){
     event.preventDefault();
 
-    if(event.target.contains(newNode)){
-        return
-    }
-    if(event.target.tagName && event.target.tagName.toLowerCase() === 'td'){
-        event.target.style.border = "";
-    }
-    if(!newNode.contains(event.target)){
-        event.target.parentElement.parentElement.style.border = "";
-    }
+    event.currentTarget.style.border = "";
 }
 
 function DropTarget(event){
